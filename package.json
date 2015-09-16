@@ -9,7 +9,8 @@
   "author": "Mirco Zeiss <mirco.zeiss@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "githubhook": "^1.3.0"
+    "githubhook": "^1.3.0",
+    "request": "^2.62.0"
   },
   "devDependencies": {
     "eslint": "^1.4.3"
