@@ -9,12 +9,13 @@ var XKCD_MAX = 1578;
 
 
 
+// configure server that listens on webhooks
 var github = githubhook();
 
-
-
+// start server
 github.listen();
 
+// listen on pull requests
 github.on('pull_request', function(repo, ref, data) {
 
   // set status to pending
@@ -28,6 +29,11 @@ github.on('pull_request', function(repo, ref, data) {
   }, 1000 * 30);
 });
 
+
+
+/**
+ * Send response to statuses api
+ */
 function response(url, state, description) {
   console.log('sending: ' + state);
   request({
@@ -68,7 +74,6 @@ function error(url) {
 function failure(url) {
   return response(url, 'failure', 'I could not finish the job');
 }
-
 
 /**
  * Returns a random integer between min (inclusive) and max (inclusive)
