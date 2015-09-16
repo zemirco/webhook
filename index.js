@@ -4,7 +4,7 @@ var githubhook = require('githubhook');
 var github = githubhook();
 
 
-
+var TOKEN = 'd7124096a9fd5f39ac31f6c85bd0efb5f5cb4640';
 var XKCD_MAX = 1578;
 
 
@@ -19,10 +19,13 @@ github.on('pull_request', function(repo, ref, data) {
   console.log('start####################');
 
   // set status to pending
-  pending(data.pull_request.statuses_url, function(err) {
+  console.log(data.pull_request.statuses_url);
+  pending(data.pull_request.statuses_url, function(err, res, body) {
     if (err) {
       console.log(err);
     }
+    // console.log(res);
+    // console.log(body);
   });
 
   // start timer / dummy tests
@@ -39,11 +42,9 @@ github.on('pull_request', function(repo, ref, data) {
   }, 1000 * 30);
 });
 
-
-
 function response(url, state, done) {
   request({
-    url: url,
+    url: url + '?access_token=' + TOKEN,
     headers: {
       'User-Agent': 'HBM-Team'
     },
