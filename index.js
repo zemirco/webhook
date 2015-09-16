@@ -34,7 +34,7 @@ github.on('pull_request', function(repo, ref, data) {
   }, 1000 * 30);
 });
 
-function response(url, state, done) {
+function response(url, state, description, done) {
   request({
     url: url + '?access_token=' + TOKEN,
     headers: {
@@ -44,26 +44,26 @@ function response(url, state, done) {
     json: {
       state: state,
       target_url: 'http://xkcd.com/' + getRandomInt(1, XKCD_MAX),
-      description: 'The build succeeded!',
-      context: 'continuous-integration/maja'
+      description: description,
+      context: 'ci/maja'
     }
   }, done);
 }
 
 function success(url, done) {
-  return response(url, 'success', done);
+  return response(url, 'succes', 'I\'m done', done);
 }
 
 function pending(url, done) {
-  return response(url, 'pending', done);
+  return response(url, 'pending', 'I\'ll start working right away', done);
 }
 
 function error(url, done) {
-  return response(url, 'error', done);
+  return response(url, 'error', 'I could not finish the job', done);
 }
 
 function failure(url, done) {
-  return response(url, 'failure', done);
+  return response(url, 'failure', 'I could not finish the job', done);
 }
 
 
