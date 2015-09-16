@@ -3,6 +3,8 @@
 
 ## Usage
 
+- create [personal access token](https://github.com/settings/tokens) for github api
+- save token to `config.js`
 - download [ngrok](https://ngrok.com/)
 - start local server to receive webhooks `node index.js`
 - expose local server to internet `./ngrok http 3420`
