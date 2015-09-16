@@ -18,8 +18,17 @@ github.on('pull_request', function(repo, ref, data) {
   console.log(data);
   console.log('start####################');
 
-  pending(data.pull_request.statuses_url);
+  // set status to pending
+  pending(data.pull_request.statuses_url, function(err) {
+    if (err) {
+      console.log(err);
+    }
+  });
+
+  // start timer / dummy tests
   setTimeout(function() {
+
+    // set status to success
     success(data.pull_request.statuses_url, function(err, res, body) {
       if (err) {
         console.log(err);
@@ -35,6 +44,9 @@ github.on('pull_request', function(repo, ref, data) {
 function response(url, state, done) {
   request({
     url: url,
+    headers: {
+      'User-Agent': 'HBM-Team'
+    },
     method: 'POST',
     json: {
       state: state,
