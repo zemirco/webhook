@@ -53,7 +53,7 @@ function response(url, state, description) {
 }
 
 function success(url) {
-  return response(url, 'succes', 'I\'m done');
+  return response(url, 'success', 'I\'m done');
 }
 
 function pending(url) {
