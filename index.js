@@ -1,11 +1,15 @@
 
 var request = require('request');
 var githubhook = require('githubhook');
-var github = githubhook();
+var config = require('./config');
 
 
-var TOKEN = 'd7124096a9fd5f39ac31f6c85bd0efb5f5cb4640';
+
 var XKCD_MAX = 1578;
+
+
+
+var github = githubhook();
 
 
 
@@ -14,30 +18,19 @@ github.listen();
 github.on('pull_request', function(repo, ref, data) {
 
   // set status to pending
-  pending(data.pull_request.statuses_url, function(err, err, body) {
-    if (err) {
-      console.log(err);
-    }
-    console.log('pending');
-    console.log(body);
-  });
+  pending(data.pull_request.statuses_url);
 
   // start timer / dummy tests
   setTimeout(function() {
 
     // set status to success
-    success(data.pull_request.statuses_url, function(err) {
-      if (err) {
-        console.log(err);
-      }
-      console.log('success');
-    });
+    success(data.pull_request.statuses_url);
   }, 1000 * 30);
 });
 
-function response(url, state, description, done) {
+function response(url, state, description) {
   request({
-    url: url + '?access_token=' + TOKEN,
+    url: url + '?access_token=' + config.token,
     headers: {
       'User-Agent': 'HBM-Team'
     },
@@ -48,23 +41,31 @@ function response(url, state, description, done) {
       description: description,
       context: 'ci/maja'
     }
-  }, done);
+  }, function(err, res, body) {
+    if (err) {
+      console.log(err);
+    }
+    if (res.statusCode !== 201) {
+      console.log(res);
+      console.log(body);
+    }
+  });
 }
 
-function success(url, done) {
-  return response(url, 'succes', 'I\'m done', done);
+function success(url) {
+  return response(url, 'succes', 'I\'m done');
 }
 
-function pending(url, done) {
-  return response(url, 'pending', 'I\'ll start working right away', done);
+function pending(url) {
+  return response(url, 'pending', 'I\'ll start working right away');
 }
 
-function error(url, done) {
-  return response(url, 'error', 'I could not finish the job', done);
+function error(url) {
+  return response(url, 'error', 'I could not finish the job');
 }
 
-function failure(url, done) {
-  return response(url, 'failure', 'I could not finish the job', done);
+function failure(url) {
+  return response(url, 'failure', 'I could not finish the job');
 }
 
 
