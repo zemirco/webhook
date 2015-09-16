@@ -4,7 +4,7 @@ var github = githubhook();
 
 github.listen();
 
-github.on('*', function (data) {
+github.on('pull_request', function (data) {
   console.log('got data: ------');
   console.log(data);
   console.log('on first branch');
