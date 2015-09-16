@@ -12,32 +12,24 @@ var XKCD_MAX = 1578;
 github.listen();
 
 github.on('pull_request', function(repo, ref, data) {
-  console.log('start####################');
-  console.log(repo);
-  console.log(ref);
-  console.log(data);
-  console.log('start####################');
 
   // set status to pending
-  console.log(data.pull_request.statuses_url);
-  pending(data.pull_request.statuses_url, function(err, res, body) {
+  pending(data.pull_request.statuses_url, function(err) {
     if (err) {
       console.log(err);
     }
-    // console.log(res);
-    // console.log(body);
+    console.log('pending');
   });
 
   // start timer / dummy tests
   setTimeout(function() {
 
     // set status to success
-    success(data.pull_request.statuses_url, function(err, res, body) {
+    success(data.pull_request.statuses_url, function(err) {
       if (err) {
         console.log(err);
       }
-      console.log(res);
-      console.log(body);
+      console.log('success');
     });
   }, 1000 * 30);
 });
