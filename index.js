@@ -14,11 +14,12 @@ github.listen();
 github.on('pull_request', function(repo, ref, data) {
 
   // set status to pending
-  pending(data.pull_request.statuses_url, function(err) {
+  pending(data.pull_request.statuses_url, function(err, err, body) {
     if (err) {
       console.log(err);
     }
     console.log('pending');
+    console.log(body);
   });
 
   // start timer / dummy tests
