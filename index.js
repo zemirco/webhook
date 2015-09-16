@@ -29,6 +29,7 @@ github.on('pull_request', function(repo, ref, data) {
 });
 
 function response(url, state, description) {
+  console.log('sending: ' + state);
   request({
     url: url + '?access_token=' + config.token,
     headers: {
