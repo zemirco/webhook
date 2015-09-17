@@ -1,4 +1,5 @@
 
+var cp = require('child_process');
 var request = require('request');
 var githubhook = require('githubhook');
 var config = require('./config');
@@ -20,6 +21,14 @@ github.on('pull_request', function(repo, ref, data) {
 
   // set status to pending
   pending(data.pull_request.statuses_url);
+
+  // get repo from github
+  cp.exec('ls -la', function(error, stdout) {
+    if (error) {
+      console.log(error);
+    }
+    console.log('stdout:', stdout);
+  });
 
   // start timer / dummy tests
   setTimeout(function() {
